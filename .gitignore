@@ -1,0 +1,20 @@
+# .gitignore
+# Ignore the .env file which contains sensitive information
+/.env
+
+# Go build output
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Dependency directories
+vendor/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+

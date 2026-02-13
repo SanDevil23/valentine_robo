@@ -1,0 +1,20 @@
+APP_NAME=valentine-bot
+CMD_PATH=./cmd/server
+BIN_DIR=bin
+
+.phony: all build run test clean docker linux mac windows
+
+all: build
+
+build:
+	@echo "Building $(APP_NAME)....."
+	@mkdir -p $(BIN_DIR)
+	@go build -o $(BIN_DIR)/$(APP_NAME) $(CMD_PATH)
+	@echo "Build successful for $(APP_NAME)....."
+
+
+run:
+	@go run $(CMD_PATH)
+
+clean:
+	@rm -rf $(BIN_DIR)

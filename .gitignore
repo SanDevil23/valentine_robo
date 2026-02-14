@@ -1,6 +1,7 @@
 # .gitignore
 # Ignore the .env file which contains sensitive information
 /.env
+/bin
 
 # Go build output
 *.exe

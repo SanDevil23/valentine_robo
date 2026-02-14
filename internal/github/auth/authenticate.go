@@ -2,7 +2,6 @@ package auth
 
 import (
 	"context"
-	"crypto/rsa"
 	"encoding/pem"
 	"errors"
 	"net/http"
@@ -10,11 +9,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/golang-jwt/jwt"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/go-github/v62/github"
 	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/jwt"
 )
 
 func NewGithubClient(installationID int64) (*github.Client, error) {
@@ -58,7 +55,7 @@ func NewGithubClient(installationID int64) (*github.Client, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
-	jwtString, err := token.SignedString(privateKey.(*rsa.PrivateKey))
+	jwtString, err := token.SignedString(privateKey)
 	if err != nil {
 		return nil, err
 	}
@@ -91,4 +88,12 @@ func NewGithubClient(installationID int64) (*github.Client, error) {
 	tc := oauth2.NewClient(ctx, ts)
 
 	return github.NewClient(tc), nil
+}
+
+
+// Helper type to inject headers
+type roundTripperFunc func(*http.Request) (*http.Response, error)
+
+func (f roundTripperFunc) RoundTrip(req *http.Request) (*http.Response, error) {
+	return f(req)
 }

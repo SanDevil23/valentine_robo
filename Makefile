@@ -1,3 +1,6 @@
+# Copyright (c) 2026 SanDevil23
+# SPDX-License-Identifier: Apache-2.0
+
 APP_NAME=valentine-bot
 CMD_PATH=./cmd/server
 BIN_DIR=bin

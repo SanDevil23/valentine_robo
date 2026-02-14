@@ -6,11 +6,15 @@ package main
 import (
 	"log"
 	"net/http"
+
+	"github.com/sandevil23/valentin_robo/internal/commands"
 	"github.com/sandevil23/valentin_robo/internal/webhook"
 )
 
 func main() {
 	http.HandleFunc("/webhook", webhook.Handle)
-	log.Println("Valentin Robo server is running on port 8080...")
+	log.Println("Valentine Robo server is running on port 8080...")
 	log.Fatal(http.ListenAndServe(":8080", nil))
+
+	commands.IsGenerateCommand("/generate list APIs");
 }

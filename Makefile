@@ -17,7 +17,9 @@ build:
 
 
 run:
+	@ngrok http 8080
 	@go run $(CMD_PATH)
+	echo "Running $(APP_NAME)....."
 
 clean:
 	@rm -rf $(BIN_DIR)

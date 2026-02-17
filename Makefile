@@ -7,7 +7,7 @@ BIN_DIR=bin
 
 .phony: all build run test clean docker linux mac windows
 
-all: build
+all: clean build run
 
 build:
 	@echo "Building $(APP_NAME)....."
@@ -22,4 +22,5 @@ run:
 	echo "Running $(APP_NAME)....."
 
 clean:
+	@echo "Cleaning up $(BIN_DIR)....."
 	@rm -rf $(BIN_DIR)

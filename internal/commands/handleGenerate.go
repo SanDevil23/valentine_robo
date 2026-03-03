@@ -4,15 +4,16 @@ import (
 	"context"
 	"log"
 
+	"github.com/google/go-github/v62/github"
 	"github.com/sandevil23/valentin_robo/internal/llm"
 )
 
-func HandleGenerate(ctx context.Context, requirement string) {
+func HandleGenerate(ctx context.Context, e *github.IssueCommentEvent, req string) {
 
 	client := llm.GetNewClient()
 
 	// 1. Generate code
-	raw, err := client.GenerateCode(ctx, requirement)
+	raw, err := client.GenerateCode(ctx, req)
 	if err != nil {
 		log.Println("LLM error:", err)
 		return

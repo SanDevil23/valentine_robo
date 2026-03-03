@@ -3,7 +3,7 @@
 
 APP_NAME=valentine-bot
 CMD_PATH=./cmd/server
-BIN_DIR=bin
+BIN_DIR=./bin
 
 .phony: all build run test clean docker linux mac windows
 

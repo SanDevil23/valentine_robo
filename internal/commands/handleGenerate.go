@@ -5,7 +5,8 @@ import (
 	"log"
 
 	"github.com/google/go-github/v62/github"
-	githubClient "github.com/sandevil23/valentin_robo/internal/github/auth"
+	githubclient "github.com/sandevil23/valentin_robo/internal/github"
+	githubclient_auth "github.com/sandevil23/valentin_robo/internal/github/auth"
 	"github.com/sandevil23/valentin_robo/internal/llm"
 )
 
@@ -14,7 +15,7 @@ func HandleGenerate(ctx context.Context, e *github.IssueCommentEvent, req string
 	installationID := e.GetInstallation().GetID();
 	files := make(map[string]string)
 
-	client, err := githubClient.NewGithubClient(installationID)
+	client, err := githubclient_auth.NewGithubClient(installationID)
 	if err != nil {
 		log.Println("Error creating GitHub client:", err)
 		return
@@ -52,4 +53,9 @@ func HandleGenerate(ctx context.Context, e *github.IssueCommentEvent, req string
 	owner := e.GetRepo().GetOwner().GetLogin()
 	repo := e.GetRepo().GetName()
 
+	err = githubclient.CreatePR(ctx, client, owner, repo, "valentine-bot", files)
+	if err != nil{
+		log.Fatalln("Failed to create pull request")
+		log.Fatalln(err)
+	}
 }

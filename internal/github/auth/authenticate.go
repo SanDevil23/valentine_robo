@@ -1,4 +1,4 @@
-package auth
+package githubClient
 // Copyright (c) 2026 SanDevil23
 // SPDX-License-Identifier: Apache-2.0
 import (

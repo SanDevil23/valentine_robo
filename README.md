@@ -1,4 +1,4 @@
-# 🤖 AI GitHub Bot
+# 🤖 Valentine ROBO - AI GitHub Bot
 
 An **AI-powered GitHub App** that can **design, generate, and commit code automatically** using an LLM.
 

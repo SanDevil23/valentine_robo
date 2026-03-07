@@ -4,6 +4,9 @@
 APP_NAME=valentine-bot
 CMD_PATH=./cmd/server
 BIN_DIR=bin
+PORT=8080
+IMAGE_NAME=valentine-bot
+CONTAINER_NAME=valentine-bot-container
 
 .phony: all build run test clean docker linux mac windows
 
@@ -24,3 +27,46 @@ run:
 clean:
 	@echo "Cleaning up $(BIN_DIR)....."
 	@rm -rf $(BIN_DIR)
+	@echo "Cleaned $(BIN_DIR)....."
+
+
+# -----------------------------
+# Docker Build
+# -----------------------------
+docker-build:
+	docker build -t $(IMAGE_NAME):latest .
+
+# -----------------------------
+# Docker Run
+# -----------------------------
+docker-run:
+	docker run -p $(PORT):8080 \
+	--name $(CONTAINER_NAME) \
+	-e GITHUB_TOKEN=$(GITHUB_TOKEN) \
+	-e OPENAI_API_KEY=$(OPENAI_API_KEY) \
+	$(IMAGE_NAME):latest
+
+# -----------------------------
+# Docker Stop
+# -----------------------------
+docker-stop:
+	docker stop $(CONTAINER_NAME) || true
+	docker rm $(CONTAINER_NAME) || true
+
+# -----------------------------
+# Docker Restart
+# -----------------------------
+docker-restart: docker-stop docker-run
+
+# -----------------------------
+# Logs
+# -----------------------------
+logs:
+	docker logs -f $(CONTAINER_NAME)
+
+# -----------------------------
+# Full Rebuild
+# -----------------------------
+rebuild: docker-stop docker-build docker-run
+How to Use It
+Build Go binary

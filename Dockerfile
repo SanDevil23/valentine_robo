@@ -1,7 +1,7 @@
 # -----------------------------
 # Stage 1 — Build the binary
 # -----------------------------
-FROM golang:1.22-alpine AS builder
+FROM golang:1.24-alpine AS builder
 
 # Install git (needed for go modules sometimes)
 RUN apk add --no-cache git
@@ -32,10 +32,10 @@ WORKDIR /app
 RUN apk add --no-cache ca-certificates
 
 # Copy binary from builder
-COPY --from=builder /app/github-bot .
+COPY --from=builder /app/valentine-bot .
 
 # Expose webhook port
 EXPOSE 8080
 
 # Run the bot
-CMD ["./github-bot"]
+CMD ["./valentine-bot"]

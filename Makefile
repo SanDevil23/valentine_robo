@@ -68,5 +68,3 @@ logs:
 # Full Rebuild
 # -----------------------------
 rebuild: docker-stop docker-build docker-run
-How to Use It
-Build Go binary

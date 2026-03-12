@@ -1,12 +1,23 @@
 # Copyright (c) 2026 SanDevil23
 # SPDX-License-Identifier: Apache-2.0
 
+# ==========================================================
+# Project Configuration
+# ==========================================================
+
 APP_NAME=valentine-bot
+BINARY_NAME := $(APP_NAME)
 CMD_PATH=./cmd/server
 BIN_DIR=bin
-PORT=8080
+
+VERSION ?= $(shell git describe --tags --always --dirty)
+COMMIT := $(shell git rev-parse --short HEAD)
+BUILD_DATE := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
+
 IMAGE_NAME=valentine-bot
+DOCKER_REGISTRY := docker.io/yourusername
 CONTAINER_NAME=valentine-bot-container
+PORT=8080
 
 .phony: all build run test clean docker linux mac windows
 

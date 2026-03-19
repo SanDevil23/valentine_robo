@@ -19,6 +19,36 @@ DOCKER_REGISTRY := docker.io/yourusername
 CONTAINER_NAME=valentine-bot-container
 PORT=8080
 
+GO := go
+
+# ==========================================================
+# Help
+# ==========================================================
+
+.PHONY: help
+help:
+@echo "Available commands:"
+@echo ""
+@echo "Development:"
+@echo "  make run           Run service locally"
+@echo "  make build         Build binary"
+@echo "  make clean         Remove build artifacts"
+@echo ""
+@echo "Code Quality:"
+@echo "  make fmt           Format code"
+@echo "  make lint          Run linter"
+@echo "  make test          Run tests"
+@echo ""
+@echo "Docker:"
+@echo "  make docker-build  Build Docker image"
+@echo "  make docker-run    Run container"
+@echo "  make docker-stop   Stop container"
+@echo "  make docker-push   Push image to registry"
+@echo ""
+@echo "Release:"
+@echo "  make release       Tag and push release"
+
+
 .phony: all build run test clean docker linux mac windows
 
 all: clean build run
@@ -40,6 +70,21 @@ clean:
 	@rm -rf $(BIN_DIR)
 	@echo "Cleaned $(BIN_DIR)....."
 
+# ==========================================================
+# Code Quality
+# ==========================================================
+
+.PHONY: fmt
+fmt:
+$(GO) fmt ./...
+
+.PHONY: lint
+lint:
+golangci-lint run
+
+.PHONY: test
+test:
+$(GO) test -v ./...
 
 # -----------------------------
 # Docker Build

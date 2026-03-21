@@ -61,14 +61,18 @@ build:
 
 
 run:
-	@ngrok http 8080
-	@go run $(CMD_PATH)
 	echo "Running $(APP_NAME)....."
+	@go run $(CMD_PATH)
 
 clean:
 	@echo "Cleaning up $(BIN_DIR)....."
 	@rm -rf $(BIN_DIR)
 	@echo "Cleaned $(BIN_DIR)....."
+
+
+.PHONY: tunnel
+tunnel:
+	ngrok http 8080
 
 # ==========================================================
 # Code Quality

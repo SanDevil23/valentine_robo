@@ -27,26 +27,26 @@ GO := go
 
 .PHONY: help
 help:
-@echo "Available commands:"
-@echo ""
-@echo "Development:"
-@echo "  make run           Run service locally"
-@echo "  make build         Build binary"
-@echo "  make clean         Remove build artifacts"
-@echo ""
-@echo "Code Quality:"
-@echo "  make fmt           Format code"
-@echo "  make lint          Run linter"
-@echo "  make test          Run tests"
-@echo ""
-@echo "Docker:"
-@echo "  make docker-build  Build Docker image"
-@echo "  make docker-run    Run container"
-@echo "  make docker-stop   Stop container"
-@echo "  make docker-push   Push image to registry"
-@echo ""
-@echo "Release:"
-@echo "  make release       Tag and push release"
+	@echo "Available commands:"
+	@echo ""
+	@echo "Development:"
+	@echo "  make run           Run service locally"
+	@echo "  make build         Build binary"
+	@echo "  make clean         Remove build artifacts"
+	@echo ""
+	@echo "Code Quality:"
+	@echo "  make fmt           Format code"
+	@echo "  make lint          Run linter"
+	@echo "  make test          Run tests"
+	@echo ""
+	@echo "Docker:"
+	@echo "  make docker-build  Build Docker image"
+	@echo "  make docker-run    Run container"
+	@echo "  make docker-stop   Stop container"
+	@echo "  make docker-push   Push image to registry"
+	@echo ""
+	@echo "Release:"
+	@echo "  make release       Tag and push release"
 
 
 .phony: all build run test clean docker linux mac windows
@@ -76,15 +76,15 @@ clean:
 
 .PHONY: fmt
 fmt:
-$(GO) fmt ./...
+	$(GO) fmt ./...
 
 .PHONY: lint
 lint:
-golangci-lint run
+	golangci-lint run
 
 .PHONY: test
 test:
-$(GO) test -v ./...
+	$(GO) test -v ./...
 
 # -----------------------------
 # Docker Build

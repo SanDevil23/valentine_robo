@@ -120,9 +120,12 @@ docker-restart: docker-stop docker-run
 logs:
 	docker logs -f $(CONTAINER_NAME)
 
-# -----------------------------
-# Full Rebuild
-# -----------------------------
-rebuild: docker-stop docker-build docker-run
-How to Use It
-Build Go binary
+# ==========================================================
+# Utilities
+# ==========================================================
+
+.PHONY: rebuild
+rebuild: clean build
+
+.PHONY: dev
+dev: fmt build run

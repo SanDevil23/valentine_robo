@@ -133,3 +133,7 @@ rebuild: clean build
 
 .PHONY: dev
 dev: fmt build run
+# -----------------------------
+# Full Rebuild
+# -----------------------------
+rebuild: docker-stop docker-build docker-run

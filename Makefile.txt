@@ -1,0 +1,140 @@
+# ==========================================================
+# Project Configuration
+# ==========================================================
+
+APP_NAME := ai-github-bot
+BINARY_NAME := $(APP_NAME)
+MAIN_PATH := ./cmd/server
+BIN_DIR := bin
+
+IMAGE_NAME := $(APP_NAME)
+DOCKER_REGISTRY := docker.io/yourusername
+
+VERSION ?= $(shell git describe --tags --always --dirty)
+COMMIT := $(shell git rev-parse --short HEAD)
+BUILD_DATE := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+PORT := 8080
+CONTAINER_NAME := $(APP_NAME)
+
+GO := go
+
+# ==========================================================
+# Build Variables
+# ==========================================================
+
+LDFLAGS := -ldflags "-X main.version=$(VERSION) \
+-X main.commit=$(COMMIT) \
+-X main.date=$(BUILD_DATE)"
+
+# ==========================================================
+# Help
+# ==========================================================
+
+.PHONY: help
+help:
+@echo "Available commands:"
+@echo ""
+@echo "Development:"
+@echo "  make run           Run service locally"
+@echo "  make build         Build binary"
+@echo "  make clean         Remove build artifacts"
+@echo ""
+@echo "Code Quality:"
+@echo "  make fmt           Format code"
+@echo "  make lint          Run linter"
+@echo "  make test          Run tests"
+@echo ""
+@echo "Docker:"
+@echo "  make docker-build  Build Docker image"
+@echo "  make docker-run    Run container"
+@echo "  make docker-stop   Stop container"
+@echo "  make docker-push   Push image to registry"
+@echo ""
+@echo "Release:"
+@echo "  make release       Tag and push release"
+
+# ==========================================================
+# Development
+# ==========================================================
+
+.PHONY: run
+run:
+$(GO) run $(MAIN_PATH)
+
+.PHONY: build
+build:
+mkdir -p $(BIN_DIR)
+$(GO) build $(LDFLAGS) -o $(BIN_DIR)/$(BINARY_NAME) $(MAIN_PATH)
+
+.PHONY: clean
+clean:
+rm -rf $(BIN_DIR)
+
+# ==========================================================
+# Code Quality
+# ==========================================================
+
+.PHONY: fmt
+fmt:
+$(GO) fmt ./...
+
+.PHONY: lint
+lint:
+golangci-lint run
+
+.PHONY: test
+test:
+$(GO) test -v ./...
+
+# ==========================================================
+# Docker
+# ==========================================================
+
+.PHONY: docker-build
+docker-build:
+docker build \
+-t $(IMAGE_NAME):$(VERSION) \
+-t $(IMAGE_NAME):latest \
+.
+
+.PHONY: docker-run
+docker-run:
+docker run -p $(PORT):8080 \
+--name $(CONTAINER_NAME) \
+--env-file .env \
+$(IMAGE_NAME):latest
+
+.PHONY: docker-stop
+docker-stop:
+docker stop $(CONTAINER_NAME) || true
+docker rm $(CONTAINER_NAME) || true
+
+.PHONY: docker-push
+docker-push:
+docker tag $(IMAGE_NAME):$(VERSION) \
+$(DOCKER_REGISTRY)/$(IMAGE_NAME):$(VERSION)
+docker push $(DOCKER_REGISTRY)/$(IMAGE_NAME):$(VERSION)
+
+# ==========================================================
+# Release
+# ==========================================================
+
+.PHONY: release
+release:
+git tag v$(VERSION)
+git push origin v$(VERSION)
+
+# ==========================================================
+# Utilities
+# ==========================================================
+
+.PHONY: rebuild
+rebuild: clean build
+
+.PHONY: dev
+dev: fmt build run
+
+
+// DEBUG MAKEFILE FOR SYNTAX FIX
+cat -e -t -v <makefile_name>

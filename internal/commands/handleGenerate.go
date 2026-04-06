@@ -21,7 +21,7 @@ func HandleGenerate(ctx context.Context, e *github.IssueCommentEvent, req string
 		return
 	}
 	
-	llmClient := llm.GetNewClient()
+	llmClient := llm.NewHFClient()
 
 	// 1. Generate code
 	raw, err := llmClient.GenerateCode(ctx, req)

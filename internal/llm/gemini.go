@@ -26,7 +26,7 @@ func GetGeminiClient(ctx context.Context) (*GeminiClient, error) {
 		return nil, err
 	}
 
-	model := c.GenerativeModel("gemini-1.5-flash") // fast & cheap equivalent
+	model := c.GenerativeModel("gemini-flash-latest") // fast & cheap equivalent
 
 	return &GeminiClient{
 		client: c,
